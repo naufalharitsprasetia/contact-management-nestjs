@@ -7,5 +7,14 @@ export class RegisterUserRequest {
 export class UserResponse {
   username: string;
   name: string;
-  token?: string;
+  token?: string | null;
+}
+
+export class LoginUserRequest {
+  username: string;
+  password: string;
+}
+export class UpdateUserRequest {
+  name?: string | null;
+  password?: string | null;
 }
