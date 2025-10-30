@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/require-await */
 import { Logger } from 'winston';
 import { ValidationService } from './../common/validation.service';
@@ -109,6 +111,20 @@ export class UserService {
         username: user.username,
       },
       data: user,
+    });
+    return {
+      name: result.name,
+      username: result.username,
+    };
+  }
+  async logout(user: User): Promise<UserResponse> {
+    const result = await this.prismaService.user.update({
+      where: {
+        username: user.username,
+      },
+      data: {
+        token: null,
+      },
     });
     return {
       name: result.name,
