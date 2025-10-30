@@ -18,3 +18,10 @@ export class UpdateContactRequest {
   email?: string | null;
   phone?: string | null;
 }
+export class SearchContactRequest {
+  name?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  page: number;
+  size: number;
+}
