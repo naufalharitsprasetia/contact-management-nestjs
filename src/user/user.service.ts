@@ -78,7 +78,7 @@ export class UserService {
       throw new HttpException('Username or Password is invalid', 401);
     }
     // Generate JWT token
-    const payload = { username: user.username };
+    const payload = { username: user.username, name: user.name };
     const token = await this.jwtService.signAsync(payload);
 
     return {

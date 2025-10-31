@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { JwtService } from '@nestjs/jwt';
+import { NextFunction } from 'express';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
@@ -16,21 +17,25 @@ export class AuthMiddleware implements NestMiddleware {
     private prismaService: PrismaService,
     private jwtService: JwtService,
   ) {}
-  async use(req: any, res: any, next: (error?: any) => void) {
+  use(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers['authorization'];
-    if (!authHeader) {
-      throw new UnauthorizedException('Missing Authorization header');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return next(); //
     }
-    const [type, token] = authHeader.split(' ');
-    if (type !== 'Bearer' || !token) {
-      throw new UnauthorizedException('Invalid token format');
-    }
+
+    const token = authHeader.split(' ')[1];
     try {
-      const payload = await this.jwtService.verifyAsync(token);
-      req['user'] = payload;
-      next();
-    } catch (err) {
-      throw new UnauthorizedException(err);
+      const decoded = this.jwtService.verify(token, {
+        secret: process.env.JWT_SECRET,
+      });
+
+      // Simpan payload ke request.user
+      (req as any).user = decoded;
+    } catch (error) {
+      console.log('JWT verification failed:', error.message);
+      throw new UnauthorizedException('Invalid token');
     }
+
+    next();
   }
 }

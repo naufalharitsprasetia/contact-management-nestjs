@@ -38,6 +38,12 @@ import { JwtModule } from '@nestjs/jwt';
 })
 export class CommonModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes('/api/*');
+    consumer
+      .apply(AuthMiddleware)
+      .exclude(
+        '/api/users', // register
+        '/api/users/login', // login
+      )
+      .forRoutes('/api/*');
   }
 }
