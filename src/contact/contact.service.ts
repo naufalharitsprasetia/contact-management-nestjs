@@ -25,9 +25,6 @@ export class ContactService {
     user: User,
     request: CreateContactRequest,
   ): Promise<ContactResponse> {
-    this.logger.debug(
-      `ContactService.create(${JSON.stringify(user)}, ${JSON.stringify(request)})`,
-    );
     const createRequest: CreateContactRequest = this.validationService.validate(
       ContactValidation.CREATE,
       request,
@@ -69,10 +66,6 @@ export class ContactService {
   }
 
   async get(user: User, contactId: number): Promise<ContactResponse> {
-    this.logger.debug(
-      `ContactService.create(${JSON.stringify(user)}, ${JSON.stringify(contactId)})`,
-    );
-
     const contact = await this.checkContactMustExists(user.username, contactId);
     return this.toContactResponse(contact);
   }

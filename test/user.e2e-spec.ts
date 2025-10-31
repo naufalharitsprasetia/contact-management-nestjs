@@ -39,8 +39,7 @@ describe('UserController and ContactController and Address Controller', () => {
           password: '',
           name: '',
         });
-
-      logger.info(response.body);
+      logger.debug(response.body);
 
       expect(response.status).toBe(400);
       expect(response.body.errors).toBeDefined();
@@ -54,8 +53,6 @@ describe('UserController and ContactController and Address Controller', () => {
           password: 'test',
           name: 'test',
         });
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.username).toBe('test');
@@ -71,8 +68,6 @@ describe('UserController and ContactController and Address Controller', () => {
           password: 'test',
           name: 'test',
         });
-
-      logger.info(response.body);
 
       expect(response.status).toBe(400);
       expect(response.body.errors).toBeDefined();
@@ -93,8 +88,6 @@ describe('UserController and ContactController and Address Controller', () => {
           name: '',
         });
 
-      logger.info(response.body);
-
       expect(response.status).toBe(400);
       expect(response.body.errors).toBeDefined();
     });
@@ -106,8 +99,6 @@ describe('UserController and ContactController and Address Controller', () => {
           username: 'test',
           password: 'test',
         });
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.username).toBe('test');
@@ -126,8 +117,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .get('/api/users/current')
         .set('Authorization', 'wrong');
 
-      logger.info(response.body);
-
       expect(response.status).toBe(401);
       expect(response.body.errors).toBeDefined();
     });
@@ -136,8 +125,6 @@ describe('UserController and ContactController and Address Controller', () => {
       const response = await request(app.getHttpServer())
         .get('/api/users/current')
         .set('Authorization', 'test');
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.username).toBe('test');
@@ -159,8 +146,6 @@ describe('UserController and ContactController and Address Controller', () => {
           name: '',
         });
 
-      logger.info(response.body);
-
       expect(response.status).toBe(400);
       expect(response.body.errors).toBeDefined();
     });
@@ -172,8 +157,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .send({
           name: 'test updated',
         });
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.username).toBe('test');
@@ -188,8 +171,6 @@ describe('UserController and ContactController and Address Controller', () => {
           password: 'updated',
         });
 
-      logger.info(response.body);
-
       expect(response.status).toBe(200);
       expect(response.body.data.username).toBe('test');
       expect(response.body.data.name).toBe('test');
@@ -200,8 +181,6 @@ describe('UserController and ContactController and Address Controller', () => {
           username: 'test',
           password: 'updated',
         });
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.token).toBeDefined();
@@ -218,8 +197,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .delete('/api/users/current')
         .set('Authorization', 'wrong');
 
-      logger.info(response.body);
-
       expect(response.status).toBe(401);
       expect(response.body.errors).toBeDefined();
     });
@@ -228,8 +205,6 @@ describe('UserController and ContactController and Address Controller', () => {
       const response = await request(app.getHttpServer())
         .delete('/api/users/current')
         .set('Authorization', 'test');
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data).toBe(true);
@@ -259,8 +234,6 @@ describe('UserController and ContactController and Address Controller', () => {
           phone: '',
         });
 
-      logger.info(response.body);
-
       expect(response.status).toBe(400);
       expect(response.body.errors).toBeDefined();
     });
@@ -275,8 +248,6 @@ describe('UserController and ContactController and Address Controller', () => {
           email: 'test@example.com',
           phone: '081220594202',
         });
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.id).toBeDefined();
@@ -299,8 +270,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .get(`/api/contacts/${contact!.id + 1}`)
         .set('Authorization', 'test');
 
-      logger.info(response.body);
-
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
     });
@@ -310,8 +279,6 @@ describe('UserController and ContactController and Address Controller', () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts/${contact!.id}`)
         .set('Authorization', 'test');
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.id).toBeDefined();
@@ -340,8 +307,6 @@ describe('UserController and ContactController and Address Controller', () => {
           phone: '',
         });
 
-      logger.info(response.body);
-
       expect(response.status).toBe(400);
       expect(response.body.errors).toBeDefined();
     });
@@ -358,8 +323,6 @@ describe('UserController and ContactController and Address Controller', () => {
           phone: '081220594202',
         });
 
-      logger.info(response.body);
-
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
     });
@@ -375,8 +338,6 @@ describe('UserController and ContactController and Address Controller', () => {
           email: 'testupdated@example.com',
           phone: '9999',
         });
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.id).toBeDefined();
@@ -399,8 +360,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .delete(`/api/contacts/${contact!.id + 1}`)
         .set('Authorization', 'test');
 
-      logger.info(response.body);
-
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
     });
@@ -410,8 +369,6 @@ describe('UserController and ContactController and Address Controller', () => {
       const response = await request(app.getHttpServer())
         .delete(`/api/contacts/${contact!.id}`)
         .set('Authorization', 'test');
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data).toBe(true);
@@ -429,8 +386,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .get(`/api/contacts/`)
         .set('Authorization', 'test');
 
-      logger.info(response.body);
-
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(1);
     });
@@ -439,8 +394,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .get(`/api/contacts/`)
         .query({ name: 'es' })
         .set('Authorization', 'test');
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(1);
@@ -451,8 +404,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .query({ name: 'wrormg' })
         .set('Authorization', 'test');
 
-      logger.info(response.body);
-
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(0);
     });
@@ -461,8 +412,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .get(`/api/contacts/`)
         .query({ email: 'es' })
         .set('Authorization', 'test');
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(1);
@@ -473,8 +422,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .query({ email: 'wrormg' })
         .set('Authorization', 'test');
 
-      logger.info(response.body);
-
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(0);
     });
@@ -483,8 +430,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .get(`/api/contacts/`)
         .query({ phone: '081220' })
         .set('Authorization', 'test');
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(1);
@@ -495,8 +440,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .query({ phone: '999' })
         .set('Authorization', 'test');
 
-      logger.info(response.body);
-
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(0);
     });
@@ -505,8 +448,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .get(`/api/contacts/`)
         .query({ page: 2, size: 1 })
         .set('Authorization', 'test');
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(0);
@@ -539,8 +480,6 @@ describe('UserController and ContactController and Address Controller', () => {
           city: '',
         });
 
-      logger.info(response.body);
-
       expect(response.status).toBe(400);
       expect(response.body.errors).toBeDefined();
     });
@@ -557,8 +496,6 @@ describe('UserController and ContactController and Address Controller', () => {
           province: 'Provinsi test',
           city: 'Kota test',
         });
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.id).toBeDefined();
@@ -585,8 +522,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .get(`/api/contacts/${contact!.id + 1}/addresses/${address!.id}`)
         .set('Authorization', 'test');
 
-      logger.info(response.body);
-
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
     });
@@ -597,8 +532,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .get(`/api/contacts/${contact!.id}/addresses/${address!.id + 1}`)
         .set('Authorization', 'test');
 
-      logger.info(response.body);
-
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
     });
@@ -608,8 +541,6 @@ describe('UserController and ContactController and Address Controller', () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts/${contact!.id}/addresses/${address!.id}`)
         .set('Authorization', 'test');
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.id).toBeDefined();
@@ -643,8 +574,6 @@ describe('UserController and ContactController and Address Controller', () => {
           city: '',
         });
 
-      logger.info(response.body);
-
       expect(response.status).toBe(400);
       expect(response.body.errors).toBeDefined();
     });
@@ -662,8 +591,6 @@ describe('UserController and ContactController and Address Controller', () => {
           province: 'Provinsi updated',
           city: 'Kota updated',
         });
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.id).toBeDefined();
@@ -687,8 +614,6 @@ describe('UserController and ContactController and Address Controller', () => {
           city: 'Kota updated',
         });
 
-      logger.info(response.body);
-
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
     });
@@ -705,8 +630,6 @@ describe('UserController and ContactController and Address Controller', () => {
           province: 'Provinsi updated',
           city: 'Kota updated',
         });
-
-      logger.info(response.body);
 
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
@@ -728,8 +651,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .delete(`/api/contacts/${contact!.id + 1}/addresses/${address!.id}`)
         .set('Authorization', 'test');
 
-      logger.info(response.body);
-
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
     });
@@ -740,8 +661,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .delete(`/api/contacts/${contact!.id}/addresses/${address!.id + 1}`)
         .set('Authorization', 'test');
 
-      logger.info(response.body);
-
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
     });
@@ -751,8 +670,6 @@ describe('UserController and ContactController and Address Controller', () => {
       const response = await request(app.getHttpServer())
         .delete(`/api/contacts/${contact!.id}/addresses/${address!.id}`)
         .set('Authorization', 'test');
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data).toBe(true);
@@ -775,8 +692,6 @@ describe('UserController and ContactController and Address Controller', () => {
         .get(`/api/contacts/${contact!.id + 1}/addresses`)
         .set('Authorization', 'test');
 
-      logger.info(response.body);
-
       expect(response.status).toBe(404);
       expect(response.body.errors).toBeDefined();
     });
@@ -786,8 +701,6 @@ describe('UserController and ContactController and Address Controller', () => {
       const response = await request(app.getHttpServer())
         .get(`/api/contacts/${contact!.id}/addresses`)
         .set('Authorization', 'test');
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.length).toBe(1);

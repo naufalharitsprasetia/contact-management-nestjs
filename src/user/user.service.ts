@@ -46,7 +46,6 @@ export class UserService {
     };
   }
   async login(request: LoginUserRequest): Promise<UserResponse> {
-    this.logger.debug(`UserService.login(${JSON.stringify(request)})`);
     const loginUserRequest: LoginUserRequest = this.validationService.validate(
       UserValidation.LOGIN,
       request,
@@ -91,9 +90,6 @@ export class UserService {
     };
   }
   async update(user: User, request: UpdateUserRequest): Promise<UserResponse> {
-    this.logger.debug(
-      `User Service.update(${JSON.stringify(user)}, ${JSON.stringify(request)})`,
-    );
     const updateRequest: UpdateUserRequest = this.validationService.validate(
       UserValidation.UPDATE,
       request,
