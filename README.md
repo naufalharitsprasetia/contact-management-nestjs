@@ -16,24 +16,24 @@ Project ini menggunakan Feature-Based Modular Architecture dengan pendekatan Lay
 - ValidationService → validasi reusable
 - Error Filter → menangani error agar format respons seragam
 
-## Alasan Menggunakan Pattern Ini
+## Alasan Menggunakan Pattern Ini :
 
 ### Feature-Oriented Structure
 
-Setiap fitur berdiri sendiri. Hal ini memudahkan scaling, refactor, dan kolaborasi antar tim.
+- Setiap fitur berdiri sendiri. Hal ini memudahkan scaling, refactor, dan kolaborasi antar tim.
 
 ### Clear Separation of Concerns
 
-Controller tidak berisi business logic, dan service tidak berurusan dengan HTTP. Semua punya tanggung jawab jelas.
+- Controller tidak berisi business logic, dan service tidak berurusan dengan HTTP. Semua punya tanggung jawab jelas.
 
 #### Maintainable & Scalable
 
-Mudah menambah fitur baru tanpa merusak struktur lama — cukup tambahkan folder module baru.
+- Mudah menambah fitur baru tanpa merusak struktur lama — cukup tambahkan folder module baru.
 
 ### Testability Tinggi
 
-Karena setiap layer terpisah, sangat mudah untuk membuat unit test dan e2e test per module.
+- Karena setiap layer terpisah, sangat mudah untuk membuat unit test dan e2e test per module.
 
 ### Clean & Consistent Codebase
 
-Struktur modular membuat kode seragam dan mudah dipahami oleh developer baru.
+- Struktur modular membuat kode seragam dan mudah dipahami oleh developer baru.
