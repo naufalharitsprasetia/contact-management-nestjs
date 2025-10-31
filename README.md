@@ -30,10 +30,12 @@ Project ini menggunakan Feature-Based Modular Architecture dengan pendekatan Lay
 
 - Mudah menambah fitur baru tanpa merusak struktur lama — cukup tambahkan folder module baru.
 
-### Testability Tinggi
-
-- Karena setiap layer terpisah, sangat mudah untuk membuat unit test dan e2e test per module.
-
 ### Clean & Consistent Codebase
 
 - Struktur modular membuat kode seragam dan mudah dipahami oleh developer baru.
+
+## Alur :
+
+```bash
+Client → UserController → UserService → PrismaService (DB)
+```
