@@ -1,7 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/require-await */
 import { Logger } from 'winston';
 import { ValidationService } from './../common/validation.service';
-import { Body, HttpException, Inject, Injectable } from '@nestjs/common';
+import {
+  Body,
+  HttpException,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import {
   LoginUserRequest,
   RegisterUserRequest,
@@ -12,14 +19,15 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { PrismaService } from '../common/prisma.service';
 import { UserValidation } from './user.validation';
 import * as bcrypt from 'bcrypt';
-import { v4 as uuidv4 } from 'uuid';
 import { User } from '@prisma/client';
+import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class UserService {
   constructor(
     private validationService: ValidationService,
     @Inject(WINSTON_MODULE_PROVIDER) private logger: Logger,
     private prismaService: PrismaService,
+    private jwtService: JwtService,
   ) {}
 
   async register(request: RegisterUserRequest): Promise<UserResponse> {
@@ -45,12 +53,13 @@ export class UserService {
       name: user.name,
     };
   }
+
   async login(request: LoginUserRequest): Promise<UserResponse> {
     const loginUserRequest: LoginUserRequest = this.validationService.validate(
       UserValidation.LOGIN,
       request,
     );
-    let user = await this.prismaService.user.findUnique({
+    const user = await this.prismaService.user.findUnique({
       where: {
         username: loginUserRequest.username,
       },
@@ -59,6 +68,7 @@ export class UserService {
     if (!user) {
       throw new HttpException('Username or Password is Wrong', 401);
     }
+
     const isPasswordValid = await bcrypt.compare(
       loginUserRequest.password,
       user.password,
@@ -67,22 +77,24 @@ export class UserService {
     if (!isPasswordValid) {
       throw new HttpException('Username or Password is invalid', 401);
     }
-
-    user = await this.prismaService.user.update({
-      where: {
-        username: loginUserRequest.username,
-      },
-      data: {
-        token: uuidv4(),
-      },
-    });
+    // Generate JWT token
+    const payload = { username: user.username };
+    const token = await this.jwtService.signAsync(payload);
 
     return {
       username: user.username,
       name: user.name,
-      token: user.token,
+      token: token,
     };
   }
+  async verifyToken(token: string) {
+    try {
+      return await this.jwtService.verifyAsync(token);
+    } catch (error) {
+      throw new UnauthorizedException(error);
+    }
+  }
+
   async get(user: User): Promise<UserResponse> {
     return {
       username: user.username,
@@ -112,17 +124,16 @@ export class UserService {
     };
   }
   async logout(user: User): Promise<UserResponse> {
-    const result = await this.prismaService.user.update({
+    const result = await this.prismaService.user.findFirst({
       where: {
         username: user.username,
       },
-      data: {
-        token: null,
-      },
     });
+    document.cookie = 'token=; Max-Age=0; path=/;';
+    window.location.href = '/login';
     return {
-      name: result.name,
-      username: result.username,
+      name: result!.name,
+      username: result!.username,
     };
   }
 }

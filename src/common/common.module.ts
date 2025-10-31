@@ -7,6 +7,7 @@ import { ValidationService } from './validation.service';
 import { APP_FILTER } from '@nestjs/core';
 import { ErrorFilter } from './error.filter';
 import { AuthMiddleware } from './auth.middleware';
+import { JwtModule } from '@nestjs/jwt';
 
 @Global()
 @Module({
@@ -18,6 +19,11 @@ import { AuthMiddleware } from './auth.middleware';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    JwtModule.register({
+      global: true, // biar bisa di-inject di mana aja tanpa import ulang
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '3h' },
     }),
   ],
   providers: [

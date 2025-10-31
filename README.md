@@ -34,7 +34,7 @@ Project ini menggunakan Feature-Based Modular Architecture dengan pendekatan Lay
 
 - Struktur modular membuat kode seragam dan mudah dipahami oleh developer baru.
 
-## Alur :
+## Contoh Alur :
 
 ```bash
 Client → UserController → UserService → PrismaService (DB)
